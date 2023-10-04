@@ -21,6 +21,6 @@ here you will find my notes and summary for each chapter
 | :---:| :---: |
 | Chapter 1 | ✔ | https://github.com/habibaelsayed/eloquent-javascript-book/tree/a9639fc1a2a3222109fbfe7f3fea408ad24390a9/chapter-1
 | :---:| :---: |
-| Chapter 2 | In progress | 
+| Chapter 2 | In progress | https://github.com/habibaelsayed/eloquent-javascript-book/tree/b571fcf6110e303d218d12ec69072f7ea67c5f6e/chapter-2
 
 
