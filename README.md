@@ -17,12 +17,10 @@ a complete revision that dives into JavaScript to show you how to write elegant,
 # Notes and Summary
 here you will find my notes and summary for each chapter
 
-| Chapter Notes | Status |
+| Chapter | Status |
 | :---:| :---: |
-| Chapter 1 | ✔ | 
-
-# Solutions
-
-| Chapter Solutions | Status |
+| Chapter 1 | ✔ | https://github.com/habibaelsayed/eloquent-javascript-book/tree/a9639fc1a2a3222109fbfe7f3fea408ad24390a9/chapter-1
 | :---:| :---: |
-| Chapter 1 | ✔ |
+| Chapter 2 | In progress | 
+
+
