@@ -90,3 +90,63 @@ console.log(yourName);
 ```
 - Applying the `!` operator will convert a value to Boolean type before negating it, all strings except `""` convert to `true`.
 
+### Indenting code (spaces and line breaks):
+- The role of this `indentation` inside blocks is to make the structure of the code stand out.
+- The visual shape of a program corresponds to the shape of the blocks inside it.
+
+### For loops:
+- All the statements that are related to the "state" of the loop are grouped together after `for`.
+```js
+for (let number = 0; number <= 12; number = number + 2) {
+  console.log(number);
+}
+```
+- The first part `initializes` the loop.
+- The second part is the "expression" that `checks` whether the loop continues or not.
+- The third part `updates` the state of the loop after every iteration.
+
+### Breaking out of a loop:
+- A statement called `break` has effect of immediately jumping out of the enclosing loop.
+- A statement called `continue` is encountered in a loop body, controls jumps out of the body and continues with the "loop's next iteration".
+- If you accidentally write an end condition that always produces `true`, your program will be stuck in an `infinite loop`.
+
+### Updating bindings succinctly
+- When looping a program often needs to "update" a binding to hold a value based on that binding's previous value.
+```js
+counter = counter + 1;
+//or
+counter += 1;
+//or
+counter++;
+```
+
+### Dispatching on a value with switch:
+- There is a construct called `switch` that is intended to express such a "dispatch" in a more direct way.
+```js
+switch(expression) { 
+   case constant-expression1: { 
+      //statements; 
+      break; 
+   } 
+   case constant_expression2: { 
+      //statements; 
+      break; 
+   } 
+   default: { 
+      //statements; 
+      break; 
+   } 
+}
+```
+- The `default` statements are executed if no matching value is found.
+- Statements will continue executing, even accross other labels, until it reaches a `break` statement.
+- Be careful it is easy to forget such a `break`, which will cause the program to execute code you don't want executed.
+
+### Capitalization:
+- It's helpful to use multiple words to clearly describe what the binding represents.
+- Most JavaScript programmers, they capitalize every word except the first.
+- In few cases, the `Number` function, the first letter is capitalized, to mark this function as a constructor.
+
+### Comments:
+- Writing thoughts as part of your program that people understand and it's ignored by the computer.
+- comments are written with `//` before or when writing multiple lines we use `/* your comment */`.
