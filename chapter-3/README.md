@@ -16,7 +16,7 @@ console.log(square(12)); //144
 - A function without a return value will return `undefined`.
 - `Parameters` to a function behave like regular bindings, but their initial values are given by the `caller` of the function, not the code in the function itself.
 
-### Bindings and Scopes:
+## Bindings and Scopes:
 - Each binding has a `scope` which the binding is visible.
 - Bindings defined outside of any function or block, these are called `global bindings`.
 - Bindings defined inside any function or block, these are called `local bindings`.
@@ -34,19 +34,19 @@ let p = function(){
 p(); // 10
 ```
 
-### Nested scope:
+## Nested scope:
 - Blocks and functions can be created inside other blocks and functions, producing "multiple degrees of locality".
 - Each local scope can alse see all the local scopes that contain it and all scopes can see global scope.
 - This approach to "binding visibility" is called `lexical scoping`.
 
-### Functions as values:
+## Functions as values:
 - A function binding usually acts as a name for a specific piece of the program.
 - A binding that holds a function if it's not constant, it can be assigned to a new value.
 
-### Declaration notation:
+## Declaration notation:
 - Function declarations are not part of the regular top-to-bottom flow of control. They are conceptually moved to the top of their scope and can be used by all the code in that scope. (freedom to order code in a way that seems meaningful).
 
-### Arrow functions:
+## Arrow functions:
 ```js
 const power = (base, exponent) => {
   let result = 1;
@@ -59,7 +59,7 @@ const power = (base, exponent) => {
 - The arrow comes after the list of parameters and is followed by the function's body.
 - Arrow functions were to make it possible to write small function expressions in a less verbose way.
 
-### The call stack:
+## The call stack:
 - The way control flows through functions.
 ```js
 function greet(who) {
@@ -85,7 +85,7 @@ console.log(chicken() + " came first.");
 // ??????
 ```
 
-### Optional arguments:
+## Optional arguments:
 ```js
 function square(x) { return x * x; }
 console.log(square(4, true, "sgfgf");
@@ -112,7 +112,7 @@ console.log("U", "R", "Beautiful") //U R Beautiful
 ```
 it outputs all the values it is given.
 
-### Closure:
+## Closure:
 - Local bindings are recreated every time a function is called.
 ```js
 function wrapValue(n) {
@@ -136,4 +136,42 @@ let twice = multiplier(2);
 console.log(twice(5));
 //10
 ```
+
+## Recursion:
+- It's perfectly okay for a function to call itself, as long as it doesn't do it so often that it overflows the stack.
+- A "function" that calls itself is called `recursive`.
+- Running through a simple loop is generally cheaper than calling a function multiple times.
+- Recursion is not always just an efficient alternative to looping. Some problems really are easier to solve with recursion than with loops. Most often there problems that require exploring or processing several "branches". Each branch might branch out into even more branches. 
+ex. by starting with number 1 we want to reach out to a target number by multiplying by 3 or adding 5.
+```js
+function findSolution(target) {
+  function find(current, history) {
+    if (current == target) {
+      return history;
+    } else if (current > target) {
+      return null;
+    } else {
+      return find(current + 5, `${history} + 5`) ||
+             find(current * 3, `${history} * 3`);
+    }
+  }
+  return find(1, "1");
+}
+
+console.log(findSolution(24));
+// (((1 * 3) + 5) * 3)
+```
+- This program doesn't necessarily find the `shortest` sequence of operations. It's satisfied when it finds any sequence at all.
+
+## Growing functions:
+- Having more code means more space for mistakes to hide and more material to read for people trying to understand the program.
+- It's difficult to find a good name for a function is a good indication of how clear a concept it is that you're trying to wrap.
+- Creating more general function it can be clever as long as you are going to need it. A useful principle is not to add cleverness unless you are absolutely sure you're going to need it. It can be tempting to write "general frameworks" for every bit of functionality you came across.
+
+## Functions and side effects:
+- Functions can be divided into those that are called for their "side effects" or their "return values" or both.
+- Functions that create values are easier to combine in new ways than functions that directly perform side effects.
+- A `pure` function is a specific kind of value-producing function that not only has no side effects but also doesn't rely on side effects from other code. and arguments values remain the same. 
+ex. `sum()`
+- Some operations are also easier to express in an efficient way when we use side effects, so computing speed can be a reason to avoid purity.
 
