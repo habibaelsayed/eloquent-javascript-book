@@ -1,9 +1,9 @@
 # Chapter 3
-### Functions:
+## Functions:
 - The concept of wrapping a piece of program in a value has many uses.
 - It gives us a way to structure larger programs, to reduce repetition, to associate names with subprograms, and to isolate these subprograms from each other.
 
-### Defining a function:
+## Defining a function:
 - A function definition is regular binding where the value of the binding is a "function".
 ```js
 const square = function(x) {
