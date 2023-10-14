@@ -60,5 +60,84 @@ noisy(Math.min)(3, 2, 1);
 // called with [3, 2, 1], returned 1
 ```
 
+### Filtering arrays:
+- Filtering out the elements in an array that don't pass the test.
+```js
+function filter(array, test) {
+    let passed = [];
+    for (let element of array) {
+        if (test(element)) {
+            passed.push(element);
+        }
+    }
+    return passed;
+}
+
+console.log(filter(SCRIPTS, script => script.living));
+// [{name: "Adlam", ...}, ...]
+```
+- the `filter` function, rather than deleting elements from the existing array, builds up a new array with only the elements that pass the test.
+- This function is `pure`, `filter` is a standard array method.
+
+### Transforming with map:
+- The `map` method tranforms an array by applying a function to all of its elements and building a new array from the returned values.
+- The new array will have the same length as the input array, but its content will have been `mapped` to a new form by the function.
+```js
+function map(array, transform) {
+    let mapped = [];
+    for (let element of array) {
+        mapped.push(transform(element));
+    }
+    return mapped;
+}
+let rtlScripts = SCRIPTS.filter(s => s.direction == "rtl");
+console.log(map(rtlScripts, s => s.name));
+// ["Adlam", "Arabic", "Impreial Aramic", ...]
+```
+
+### Summarizing with reduce:
+- `reduce` function sometimes called `fold`, it builds a value by repeatedly taking a single element from the array and combining it with the current value.
+```js
+function reduce(array, combine, start) {
+    let current = start;
+    for (let element of array) {
+        current = combine(current, element);
+    }
+    return current;
+}
+console.log(reduce([1, 2, 3, 4], (a, b) => a + b, 0));
+// 10
+```
+
+### Composability:
+- Higher-order functions start to shine when you need to `compose` operations.
+```js
+function average(array) {
+    return array.reduce((a, b) => a + b) / array.length;
+}
+console.log(Math.round(average(
+    SCRIPTS.filter(s => s.living).map(s => s.year))));
+// 1188
+console.log(Math.round(average(
+    SCRIPTS.filter(s => !s.living).map(s => s.year))));
+// 188
+```
+- You can use it as a `pipeline`.
+- This approach will build up new arrays but we can computes it processing only the some numbers and doing less work, but if you're processing huge arrays, and doing so many times, the less "abstract" style might be worth the extra speed.
+
+### Strings and character codes:
+- UTF-16, the format used by JavaScript strings, was invetend.
+```js
+let horseShoe = "🐎👟";
+console.log(horseShoe.length);
+// 4
+console.log(horseShoe[0]);
+// (Invalid half-character)
+console.log(horseShoe.charCodeAt(0));
+// 55357 (code of the half-character)
+console.log(horseShoe.charPointAt(0)); //gives you a code unit (a type of loop)
+// 128052 (Actual code for horse emoji)
+```
+
 
 
