@@ -139,5 +139,8 @@ console.log(horseShoe.charPointAt(0)); //gives you a code unit (a type of loop)
 // 128052 (Actual code for horse emoji)
 ```
 
+### Recognizing text:
+- `findIndex` this method is somewhat like  `indexOf`, but instead of looking for a specific value, it finds the first value for which the given function returns `true`. Like `indexOf`, it returns `-1` when no such element is found.
+
 
 
