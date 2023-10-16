@@ -35,3 +35,23 @@ function normalize() {
 normalize.call({coords: [0, 2, 3], length: 5});
 // [0, 0.4, 0.6]
 ```
+
+### Prototypes:
+- Most objects have a `prototype`.
+- A `prototype` is another object that is used as "a fallback source of properties".
+- When an object gets a request for a prototype that it does not have, its prototype will be searched for the prototype, then the prototype's prototype, and so on.
+- The prototype relations of JavaScript objects form a "tree-shaped" structure, and at the root of this structure sits `object.prototype`. It provides a few methods that show up in all objects.
+- Many objects don't directly have `Object.prototype` as their properties but another objects type derived from them, like `Function.prototype`, `Array.prototype`.
+```js
+let protoRabbit = {
+    speak(line) {
+        console.log(`The ${this.type} rabbit says '${line}`);
+    }
+};
+let killerRabbit = Object.create(protoRabbit); //prototype inheritance
+killerRabbit.type = "killer";
+killerRabbit.speak("SKREEEEE!");
+// The killer rabbit says 'SKREEEEE!'
+```
+- The "proto" rabbit acts as a container for the properties that are shared by all rabbits.
+
