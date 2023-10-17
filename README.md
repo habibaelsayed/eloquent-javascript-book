@@ -1,10 +1,11 @@
-# Eloquent-JavaScript
+# Eloquent JavaScript
 a complete revision that dives into JavaScript to show you how to write elegant, effective JavaScript code.
 
-### you can buy it from here: https://a.co/d/aPkbTis
+### You Can Download ```The Eloquent JavaScript Book``` from  [Here](https://github.com/0xGhada/eloquent-javascript-book/blob/main/Eloquent_JavaScript_3rdEdition.pdf)
 
-![x](https://m.media-amazon.com/images/I/91asIC1fRwL._AC_UF1000,1000_QL80_.jpg)
-# Eloquent-JavaScript-Book
+<img src="https://m.media-amazon.com/images/I/91asIC1fRwL._AC_UF1000,1000_QL80_.jpg" width="150" height="200">
+
+# Eloquent JavaScript Book
 - This book is about introducing JavaScript language and it will try to make you familiar enough with this language to do useful and amusing things with it. Besides explaining JavaScript, The book will introduce The basic principles of programming.
 - Every chapter has many topics that is headlined and exercises for each chapter.
 ----------------------------------  
