@@ -55,3 +55,72 @@ killerRabbit.speak("SKREEEEE!");
 ```
 - The "proto" rabbit acts as a container for the properties that are shared by all rabbits.
 
+### Classes:
+- A `class` defines the shape of a type of object __ what methods and properties it has. 
+- An `object` is called an `instance` of the class.
+- To create an instance of a given class, you alse have to make sure it, itself, has the properties that instances of this class are supposed to have. This is what a `constructor` function does.
+- The keyword `new` in front of a function call, the function is treated as a "constructor".
+```js
+function Rabbit(type) {
+    this.type = type;
+}
+Rabbit.prototype.speak = function(line) {
+    console.log(`The ${this.type} rabbit says '${line}'`);
+}
+let weirdRabbit = new Rabbit("weird");
+```
+- Constructors automatically get a property named "prototype", by default holds a plain, empty object that derives from `Object.prototype`.
+- The names of constructors are capitalized so that they can easily be distinguished.
+- The actual prototype of a constructor is `Function.prototype` since constructors are "functions".
+```js
+console.log(Object.getPrototypeOf(Rabbit) == Function.prototype);
+// true
+console.log(Object.getPrototypeOf(weirdRabbit) == Rabbit.prototype);
+// true
+```
+
+### Class notation:
+- JavaScript classes are constructor functions with a prototype property.
+```js
+class Rabbit {
+    constructor(type) {
+        this.type = type;
+    }
+    speak(line) {
+        console.log(`The ${this.type} rabbit says ${line}`);
+    }
+}
+let killerRabbit = new Rabbit("killer");
+let blackRabbit = new Rabbit("black");
+```
+- A class declaration allows us to define a construtor and a set of methods all in a single place.
+- Class declarations currently allow only `methods`, and not allowing saving a non-function value in there.
+- `function`, `class` can be used both in statements and in expressions, When used as an expression, it doesn't define a binding but just produces the constructor as a value.
+```js
+let object = new class { getWord() { return "hello"; } }; // expression
+console.log(object.getWord());
+// hello
+```
+
+### Overriding derived properties:
+- The prototype is added to the object `itself`. If there was already a property with the same name in the prototype, this property will no longer affect the object, it's hidden behind the object's own property.
+```js
+Rabbit.protoype.teeth = "small";
+console.log(killerRabbit.teeth);
+// small
+killerRabbit.teeth = "long, sharp, and bloody";
+console.log(killerRabbit.teeth);
+// long, sharp, and bloody
+console.log(blackRabbit.teeth);
+// small
+console.log(Rabbit.prototype.teeth);
+// small
+```
+- `Rabbit` and `Object` prototypes lie behind `killerRabbit` as a kind of backdrop, where properties that are not found in the object itself "can be looked up".
+- `Overriding` can be used to express exceptional properties in instances of a more generic class of objects.
+```js
+consloe.log([1, 2].toString());
+// 1, 2
+console.log(Object.prototype.toString.call([1, 2]));
+// [object Array]
+```
