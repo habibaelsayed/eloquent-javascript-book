@@ -25,4 +25,5 @@ here you will find my notes and summary for each chapter
 | Chapter 4 | ✔ | https://github.com/habibaelsayed/eloquent-javascript-book/tree/9870a5e0a5c7dc30874e42781bf164d757f6dc6f/chapter-4 |
 | Chapter 5 | ✔ | https://github.com/habibaelsayed/eloquent-javascript-book/tree/54141f91b1970ca3e4e7387a02b23a15b6df3450/chapter-5 |
 | Chapter 6 | In Progress | https://github.com/habibaelsayed/eloquent-javascript-book/tree/d162ec301a765afa9cc1ce1bc6ca37121c98002d/chapter-6 |
+| Chapter 7 | ✔ | https://github.com/habibaelsayed/eloquent-javascript-book/tree/4a7f6d9ff3138d6eb91dd0fa2c7b7acd4e5dcad2/chapter-7 |
 
