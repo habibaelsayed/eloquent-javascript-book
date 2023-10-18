@@ -124,3 +124,33 @@ consloe.log([1, 2].toString());
 console.log(Object.prototype.toString.call([1, 2]));
 // [object Array]
 ```
+
+### Maps:
+- A `map` is a data structure that associates values (the keys) with other values.
+```js
+let ages = {
+    Boris: 39,
+    Liang: 22,
+    Julia: 62
+}
+console.log(`Julia is ${ages["Julia"]}`);
+// Julia is 62
+console.log("Is Jack's age known?", "Jack" in ages);
+// Is Jack's age known? false
+console.log("Is toString's age known?", "toString" in ages);
+// Is toString's age known? true
+```
+- Plain objects derive from `Object.prototype`, so it's possible to create objects with `no prototype`. If you pass `null` to `Object.create`, the resulting object will not derive from `Object.prototype` and can safelty be used as a "map".
+```js
+console.log("toString" in Object.create(null));
+// false
+```
+- There is a class called `Map` that is written for the exact purpose. (mapings and allows any type of keys).
+```js
+let ages = new Map();
+ages.set("Boris", 39);
+console.log(ages.has("toString"));
+// false
+```
+- The methods `set`, `get`, and `has` are part of the interface of the `Map` object.
+
