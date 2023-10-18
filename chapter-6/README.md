@@ -154,3 +154,57 @@ console.log(ages.has("toString"));
 ```
 - The methods `set`, `get`, and `has` are part of the interface of the `Map` object.
 
+### Polymorphism:
+- The standard prototypes define their "own" version of any property function ex. `toString` so they can create a string that contains more useful information than `[object Object]`.
+```js
+Rabbit.prototype.toString = function() {
+    return `a ${this.type} rabbit`;
+}
+console.log(String(blackRabbit));
+// a black rabbit
+```
+- `Polymorphic` code can work with values of different shapes, as long as they support the interface it expects.
+- `for/of` loop over several kinds of data structures. This is another case of "polymorphism".
+
+### Symbols:
+- Property names can be strings and also can be `symbols`.
+- `Symbols` are values created with the `Symbol` function.
+- Newly created symbols are "unique", you can't create the same symbol twice.
+```js
+let sym = Symbol("name");
+console.log(sym == Symbol("name"));
+// false
+Rabbit.prototype[sym] = 55;
+console.log(blackRabbit[sym]);
+// 55
+```
+- Being both unique and usable as property names makes symbols suitable for defining interfaces that can peacefully line alongside other properties, no matter what their names are.
+```js
+const toStringSymbol = Symbol("toString");
+Array.prototype[toStringSymbol] = function() {
+    return `${this.length} cm of blue yarn`;
+}
+console.log([1, 2].toString());
+// 1, 2
+console.log([1, 2][toStringSymbol]());
+// 2 cm of blue yarn
+```
+
+### The iterator interface:
+- The object given to a `for/of` loop is expected to be `iterable`. This means it has a method named with the `Symbol.iterator`.
+- When this method called, it should return an object that provides a second interface, `iterator`. It has:
+1- a `next` method that returns the next result. (that result should be an object with a `value` property that provides the next value)
+2- a `done` property which should be true when there are no more results and false otherwise.
+3- a `value`.
+- `next`, `value`, and `done` property names are `plain` strings, not symbols. 
+```js
+let okIterator = "OK"[Symbol.iterator]();
+console.log(okIterator.next());
+// {value: "O", done: false}
+console.log(okIterator.next());
+// {value: "K", done: false}
+console.log(okIterator.next());
+// {value: undefined, done: true}
+```
+
+
