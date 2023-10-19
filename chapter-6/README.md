@@ -207,4 +207,71 @@ console.log(okIterator.next());
 // {value: undefined, done: true}
 ```
 
+### Getters, Setters, and Statics:
+- Methods called `getters` and they are defined by writing `get` in the front of the method, to get properties values of an object with it.
+```js
+let varyingSize = {
+    get size() {
+        return Math.floor(Math.random() * 100);
+    }
+};
+console.log(varyingSize.size);
+// 73
+console.log(varyingSize.size);
+// 49
+```
+- A similar method but when a property is "written" to, using a `setter`.
+```js
+class Temprature {
+    constructor(celsius) {
+        this.celsius = celsius;
+    }
+    get fahrenheit() {
+        return this.celsius * 1.8 + 32;
+    }
+    set fahrenheit(value) {
+        this.celsius = (value - 32) / 1.8;
+    }
+    static fromFahrenheit(value) {
+        return new Temprature((value - 32) / 1.8);
+    }
+}
+let temp = new Temprature(22);
+console.log(temp.fahrenheit);
+// 71.6
+temp.fahrenheit = 86;
+console.log(temp.celsius);
+// 30
+```
+- To attach some property directly tp your "constructor function", rather that to the prototype. Such methods won't have access to a "class instance" but can be used to provide additional ways to create instances. `static` written before their name are stored in the constructor.
 
+### Inheritance:
+- `Inheritence`: class inherits properties and behavior from the old class.
+```js
+class SymmetricMatrix extends Matrix {
+    constructor(size, element = (x, y) => undefined) {
+        super(size, size, (x, y) => {
+            if(x < y) return element(y, x);
+            else return element(x, y);
+        });
+    }
+    set(x, y, value) {
+        super.set(x, y, value);
+        if(x != y) {
+            super.set(y, x, value);
+        }
+    }
+}
+```
+- The use of `extends` indicates that this class shouldn't be directly based on default `Object.prototype` but on other class (`superclass`), and the derived class called `subclass`.
+- The constructor call its superclass's constructor through the `super` keyword.
+- The `super` keyword can be called to used a specific method from the "superclass" to use the original behavior.
+- `Encapsulation` and `Polymorphism` can be used to "separate" pieces of code to reduce "tangledness", but `Inheritence` fundmentally ties classes together creating "more tangle".
+- Inheritence shouldn't be the first tool you reach for, and you probably shouldn't actively go looking for opportunities to construct class hierarchies (familt trees of classes).
+
+### The instance operator:
+- To know whether an abject was derived from a specific class, a binary operator called `instance of`.
+```js
+console.log([1, 2] instanceof Array);
+// true
+```
