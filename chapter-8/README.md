@@ -77,3 +77,10 @@ test("convert Latin to uppercase", () => {
 - There exist pieces of software that help you build and run collections of tests (`test suites`) by providing a language (in the form of functions and methods) suited to expressing testing and by outputting informative information when a test fils, Called `test runners`.
 - Generally, the more external objects that the code interacts with, the harder it is to set up the "context" in which to test it.
 
+### Debugging:
+- The next step to figure out `what` the problem is.
+- Sometimes you can know the problem by the error message pointing to the code line and error discription.
+- An alternative to using `console.log` to peek into the problem's behavior is to use the `debugger` capabilities of your browser. Browsers come with the ability to set a `breakpoint` on a specific line of your code.
+- The breakpoint is used when the program reaches a line with a breakpoint, it is paused so you can "inspect" the values of bindings at that point. 
+- Another way to set a breakpoint is to include a `debugger` statement (simply that keyword) in your program, the program will pause whenever it reaches such a statement.
+
