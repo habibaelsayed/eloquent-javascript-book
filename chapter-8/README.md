@@ -84,3 +84,84 @@ test("convert Latin to uppercase", () => {
 - The breakpoint is used when the program reaches a line with a breakpoint, it is paused so you can "inspect" the values of bindings at that point. 
 - Another way to set a breakpoint is to include a `debugger` statement (simply that keyword) in your program, the program will pause whenever it reaches such a statement.
 
+### Error propagation:
+- If you build something that is going to be used by anyonw else, when a problem comes out you can take the bad input in stride ans continue, or in other cases, it is better to report to the user what went wrong and then give up.
+- When you function takes only one type of an input, if its type is different one option is to make it return a "special value" (`null`, `undefined`, `-1`).
+- You can do something with functions like wrap the result in an object to be able to distinguish success from failure.
+```js
+function lastElement(array) {
+    if (array.length == 0) return {failed: true};
+    else return {element: array[array.length - 1]};
+}
+```
+
+### Exceptions:
+- `Exception handling` is to stop what we are doing when a function can't proceed noramally and immediately jump to the place that knows how to handle the problem. 
+- `Exceptions` are the mechanism that makes it possible for code that runs into a problem to `raise` or `throw` an exception.
+- When throwing an exception it jumps out of not just the "current" function, but also "its callers", all the way down to first call that started the execution, this is called `unwinding the stack`. (throwing away all the call "contexts" it encounters) --> the stack of function calls.
+- Their power lies that you can set "obstacles" along the stack to catch the exception, to address the problem and then continue to run the program.
+```js
+function promptDirection(question) {
+    let result = prompt(question);
+    if (result.toLowerCase() == "left") return "L";
+    if (result.toLowerCase() == "right") return "R";
+    throw new Error("Invalid direction: " + result);
+}
+function look() {
+    if (promptDirection("Which way?") == "L") return "a house";
+    else return "two angry bears";
+}
+try {
+    console.log("You see", look());
+} catch (error) {
+    console.log("Something went wrong: " + error);
+}
+```
+- `throw` keyword is used to raise an exception.
+- Catching one is done by wrapping a piece of code in a `try` block, followed by the keyword `catch`.
+- We used the `Error` constructor to create our exception value. a standard JavaScript constructor that creates an object with a `message` property.
+- Instances of The `Error` constructor gather information about the call stack that existed when the exception was created, called `stack trace`, stored in the "stack" property. helpful to debug a problem, it tells us the function where the problem occurred and which functions made the "failing call".
+
+### Cleaning up after exceptions:
+- When code has several "side effects", an exception might prevent some of them from taking place.
+- Example of a bad banking code:
+```js
+const accounts = {
+    a: 100,
+    b: 0,
+    c: 20
+};
+function getAccount() {
+    let accountName = prompt("Enter account name");
+    if (!accounts.hasOwnProperty(accountName)) {
+        throw new Error(`No such account: ${accountName}`);
+    }
+    return accountName;
+}
+function transfer(from, amount) {
+    if (accounts[from] < amount) return;
+    accounts[from] -= amount;
+    accounts[getAccount()] += amount;
+}
+```
+- When the program is broken off an exception, this will make the money dissappear.
+- One way to prevent this is to use fewer side effects, a programming style that computer new values instead of changing existing data helps. (no half-finished value, no problem)
+- Another feature with `try` statement, using `finally` block instead of or inaddition to a `catch` block.
+- `finally` block says: "no matter what happens, run this code after trying to run the code in the `try` block".
+```js
+function transfer(from, amount) {
+    if (accounts[from] < amount) return;
+    let progress = 0;
+    try {
+        accounts[from] -= amount;
+        progress = 1;
+        accounts[getAccount()] += amount;
+        progress = 2;
+    } finally {
+        if (progress == 1) {
+            accounts[from] += amount;
+        }
+    }
+}
+```
+- Note: when an exception is thrown in the `try` block, `finally` block doesn't interfere with the exception. After the `finally` block runs, the stack continues "unwinding".
