@@ -165,3 +165,52 @@ function transfer(from, amount) {
 }
 ```
 - Note: when an exception is thrown in the `try` block, `finally` block doesn't interfere with the exception. After the `finally` block runs, the stack continues "unwinding".
+
+### Selective catching:
+- An unhandled exception is a reasonable way to signal a broken program.
+- On modern browsers, console will provide you with some information about which function calls were on the stack when the problem occurred.
+- Don't blanket-catch exceptions unless it is for the purpose of "routing" them somewhere __for example, over the network to tell another system that our program crashed.
+- To catch a "specific" kind of exception, by checking in the `catch` block whether the exception we got is the one we are interested in. by comparing its `message` property against the error message we happen to expect.
+```js
+class InputError extends Error {}
+
+function promptDirection(question) {
+    let result = prompt(question);
+    if (result.toLowerCase() == "left") return "L";
+    if (result.toLowerCase() == "right") return "R";
+    throw new InputError("Invalid direction: ", result);
+}
+```
+- An error class extending from `Error` constructor to pass the error message as an argument. 
+```js
+for (;;) {
+    try {
+        let dir = promptDirection("Where?");
+        console.log("You chose ", dir);
+        break;
+    } catch (e) {
+        if (e instanceof InputError) {
+            console.log("Not a Valid direction. Try again.");
+        } else {
+            throw e;
+        }
+    }
+}
+```
+- This will catch only instances of `InputError`.
+
+### Assertions:
+- `Assertions` are checks inside a program that verify that something is the way it is supposed to be. to handle program mistakes.
+```js
+function firstElement(array) {
+    if (array.length == 0) {
+        throw new Error("firstElement called with []");
+    }
+    return array[0];
+}
+```
+- Instead of silently returning `undefined`, this will loudly blow up your program as soon as you misuse it.
+- Makes it less likely for such mistakes to go unnoticed and easier to find their cause when they occur.
+- Don't use assertions for every possible kind of bad input to anoid noise in your code, just use them for easy to make mistakes that you find yourself making.
+
+
