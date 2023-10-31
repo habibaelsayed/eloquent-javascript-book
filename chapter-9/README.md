@@ -104,3 +104,65 @@ console.log(/bad(ly)?/.exec("bad"));
 console.log(/(\d)+/.exec("123"));
 // ["123", "3"]
 ```
+
+### The date class:
+- JavaScript has class for representing dates called `Date`.
+- You can get current date and time using `new`, or you can pass arguments of day, month and year. (note months starts at zero, so zero represents january)
+```js
+console.log(new Date());
+// Tue Oct 31 2023 13:33:07 GMT+0200
+console.log(new Date(2001, 8, 6));
+// Thu Sep 06 2001 00:00:00 GMT+0300
+```
+- We can pass the time after the date arguments (hour, minutes, seconds), or just one argument that represents `milliseconds`.
+- `getTime` method returns the milliseconds of any datetime specified.
+```js
+console.log(new Date(2013, 11, 19).getTime());
+// 1387407600000
+```
+- Date objects provide methods (`getFullYear` or `getYear`, `getMonth`, `getMonth`, `getDate`, `getHours`, `getMinutes`, `getSeconds`)
+```js
+function getDate(string) {
+    let [_, month, day, year] = /(\d{1,2})-(\d{1,2})-(\d{4})/.exec(string);
+    return new Date(year, month - 1, day);
+}
+console.log(getDate("1-30-2003"));
+// Thu Jan 30 2003 00:00:00 GMT+0100 (CET)
+```
+- The (_) underscore binding is ignored and used only to skip the full match element returned by `exec` method.
+
+### Word and string boundaries:
+- To enforce the match must span the whole string, we can add markers `^` and `$`, the caret `^` matches the start of the string and `$` matches the end of the string.
+- The marker `\b` a word boundary can be the start or end of the string or any point in the string that has word character on one side and nonword character on the other.
+```js
+console.log(/cat/.test("concatenate"));
+// true
+console.log(/\bcat\b/.test("concatenate"));
+// false
+```
+
+### Choice patterns:
+- The "pipe" character (|) denotes a choice between the pattern to its left and pattern to its right.
+```js
+let animalCount = /\b\d+ (pig|cow|chicken)s?\b/;
+console.log(animalCount.test("15 pigs"));
+// true
+console.log(animalCount.test("15 pigchickens"));
+// false
+```
+
+### The mechanics of matching:
+- When you use `exec` or `test`, the regular expression "engine" looks for a match in your string by trying to match the expression first from the start of the string, then from the second character and so on..
+- This images explains it, the flow diagram of a regular expression.
+![Alt text](image.png)
+
+### Backtracking:
+- The regular expression `/\b([01]+b|[\da-f]+h|\d+)\b/`.
+![Alt text](image-1.png)
+- When matching "103", at while going to the binary branch at "3" number it know it's on the wrong branch, so the `matcher` backtracks.
+- When entering a branch, it remembers its current position.
+- It will start trying the branch for hexadecimal numbers, which fails again because there is no `h` after the number.
+- The matcher stops as soon as it finds the full match.
+- It tests multiple branches according to the ordering where the branches appear in the regular expressions.
+- Backtracking also happens for repetition operators (`+`, `*`).
+
