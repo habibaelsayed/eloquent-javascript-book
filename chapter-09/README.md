@@ -166,3 +166,78 @@ console.log(animalCount.test("15 pigchickens"));
 - It tests multiple branches according to the ordering where the branches appear in the regular expressions.
 - Backtracking also happens for repetition operators (`+`, `*`).
 
+### The replace method:
+- A `replace` method that can be used to replace part of the string with another string.
+```js
+console.log("papa".replace("p", "m"));
+// mapa
+```
+- The `g` option (for global) is added to the regular expression, all matches in the string will be replaced, not just the first.
+```js
+console.log("Borobunder".replace(/[ou]/, "a"));
+// Barobundur
+console.log("Borobunder".replace(/[ou]/g, "a"));
+// Barabandar
+```
+- There is a `replaceAll` method that replaces all the matches.
+```js
+console.log(
+    "Liskov, Barbara\nMnCarthy, John\nWalder, Philip"
+    .replace(/(\w+), (\w+)/g, "$2 $1");
+);
+// Barbara Liskov
+// John McCarthy
+// Philip Wadler
+```
+- The `$1` and `$2` in the replacement string refer to the parenthesized groups in the pattern, `$1` is replaced by the text matched the first group, `$2` by the second and so on, up to `$9`. Thw whole match can be referred to with `$&`.
+- It is possible to "pass a function" as the second argument to the `replace` method. The function will be called with the matched groups as arguments.
+```js
+let s = "the cia and fbi";
+console.log(s.replace(/\b(fbi|cia)\b/g,
+                      str => str.toUpperCase()));
+// the CIA and FBI
+```
+
+### Greed:
+- The repetition operators (`*`, `+`, `?`, and `{}`) are "greedy". meaning they match as much as they can and backtrack from there.
+- Putting a question mark after them (`+?`, `*?`, `??`, `{}?`), they become "nongreedy" and start by matching as little as possible, matching more only when the remaining pattern does not fit the smaller match.
+```js
+function stripComments(code) {
+    return code.replace(/\/\/.*|\/\*[^]*?\*\//g, "");
+}
+console.log(stripComments("1 /* a */+/* b */ 1"));
+// 1 + 1
+```
+- A lot of bugs in regular expressions programs can be traced to unintentionally using a "greedy operator" where a "nongreedy" one would work better. When using a repetition operator, consider the "nongreedy" variant first.
+
+### Dynamically creating RegExp objects:
+- You can build up a string and use `RegExp` constructor on that.
+```js
+let name = "harry";
+let text = "Harry is a suspicious character.";
+let egexp = new RegExp("\\b(" + name + ")\\b", "gi");
+console.log(text.replace(regexp, "_$1_"));
+// _Harry_ is a suspicious character.
+```
+- The second argument to `RegExp` constructor contains options for the regular expression "`gi`" for "global" and "case-insensitive".
+- You can add backslashes before any character that has a special meaning.
+```js
+let name = "dea+hl[]rd";
+let text = "This dea+hl[]rd guy is super annoying.";
+let escaped = name.replace(/[\\[.+*?(){|^$]/g, "\\$&");
+let regexp = new RegExp("\\b" + escaped + "\\b", "gi");
+console.log(text.replace(regexp, "_$&_"));
+// This _dea+hl[]rd_ guy is super annoying.
+```
+
+### The search method:
+- `search` method returns the first "index" on which the expression was found or `-1` when it wasn't found.
+- It does except a regular expression.
+```js
+console.log("  word".search(/\S/));
+// 2
+console.log("  ".search(/\S/));
+// -1
+```
+- There is no way to indicate that the match should start at a given "offset" (index).
+
