@@ -241,3 +241,81 @@ console.log("  ".search(/\S/));
 ```
 - There is no way to indicate that the match should start at a given "offset" (index).
 
+### The lastIndex property:
+- Regular expression objects have properties such as `source` method which contains the string that expression was created from.
+- `lastIndex` method controls (in some circumstances) where the "next" match will start.
+- Those circumstances must have the "global" (`g`) or sticky (`y`) option amd the match must happen through the `exec` method.
+```js
+let pattern = /y/g;
+pattern.lastIndex = 3;
+let match = pattern.exec("xyzzy");
+console.log(match.index);
+// 4
+console.log(pattern.lastIndex);
+// 5
+```
+- The call to `exec` automatically updates the `lastIndex` property to point after the match.
+- `lastIndex` is set back to "zero". when no match was found.
+- The "sticky" option the match will succeed only if it starts directly at `lastIndex`.
+- The "global" it will search ahead for a position where a match can start.
+- Using shared regular expression value for multiple `exec` calls, these automatic updates to the `lastIndex` property can cause problems. (regular expression might be accidently starting at an index that was left over from a previous call).
+```js
+let digit = /\d/g;
+console.log(digit.exec("here it is: 1"));
+// ["1"]
+console.log(digit.exec("and now: 1"));
+// null
+```
+
+### Looping over matches:
+```js
+let input = "A string with 3 numbers in it... 42 and 88.";
+let number = /\b\d+\b/g;
+let match;
+while (match = number.exec(input)) {
+    console.log("Found", match[0], "at", match.index);
+}
+// Found 3 at 14
+// Found 42 at 33
+// Found 88 at 40
+```
+- By using `match = number.exec(input)` as the condition in the `while` statement, the match at the start of each iteration, save its result in a binding and stop looping when no more matches are found.
+
+### Parsing an INI file:
+```js
+function parseINI(string) {
+    // Start with an object to hold the top-level fields
+    let result = {};
+    let section = result;
+    string.split(/\r?\n/).forEach(line => {
+        let match;
+        if (match = line.match(/^(\w+)=(.*)$/)) {
+            section = result[match[1]] = {};
+        } else if (!/^\s*(;.*)?$/.test(line)) {
+            throw new Error("Line '" + line + "' is not valid.");
+        }
+    });
+    return result;
+}
+
+console.log(parseINI(`
+name=Vasilis
+[address]
+city=Tessaloniki`));
+// {name: "Vasilis", address: {city: "Tessaloniki"}}
+```
+- The code goes over the file's lines and builds up an object.
+
+### International characters:
+- Regular expressions work on code units, not actual characters. This means that characters that are composed of rwo code units behave strangely.
+```js
+console.log(/{3}/.test(""));
+// false
+console.log(/<.>/.test("<>"));
+// false
+console.log(/<.>/u.test("<>"));
+// true
+```
+- The  is treated as two code units.
+- The `u` option (for Unicode) treats such characters properly.
+
