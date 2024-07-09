@@ -60,3 +60,34 @@ console.log(plusOne(4));
 // 5
 ```
 
+### CommonJS
+- Approach to bolted-on Javascript modules.
+- A function called `require`. When calling it with module name of a dependency, it makes sure the module is loaded and returns its interface.
+- Modules automatically get their own local scope. All they have to do is call `require` to access their dependencies and put their interface in the object bound to `exports`.
+```js
+const ordinal = require("ordinal");
+const { days, months } = require("date-names");
+
+exports.formatDate = function(date, format){
+    return format.replace(/YYYY|M(MMM)?|Do?|dddd/g, tag => {
+        if(tag == "YYYY") return date.getFullYear();
+        if(tag == "M") return date.getMonth();
+        if(tag == "MMMM") return months[date.getMonth()];
+        if(tag == "D") return date.getDate();
+        if(tag == "dddd") return days[date.getDay()];
+    });
+};
+``` 
+- Destructuring is very convenient when creating bindings for imported interfaces.
+- The module adds its interface function to `exports` so that modules that depend on it get access to it.
+```js
+const {formatDate} = require("./format-date");
+console.log(formatDate(new Date(2017, 9, 13),
+                                "dddd the Do"));
+// Friday the 13th
+```
+- `require` keeps a store (cache) of already loaded modules. when called, it first checks if the requested module has been loaded and if not, loads it.
+- Though the module system will create an empty interface object for you (bound to `exports`), you can replace that with any value by overwriting `module.exports`.
+- By defining `require`, `exports`, and `module` as parameters for the generated wrapper function. The loader makes sure that these bindings are available in the module's scope.
+- The way the string given to `require` is translated to an actual filename or web address differs in different systems. 
+ 
