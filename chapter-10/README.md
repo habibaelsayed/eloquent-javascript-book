@@ -91,3 +91,26 @@ console.log(formatDate(new Date(2017, 9, 13),
 - By defining `require`, `exports`, and `module` as parameters for the generated wrapper function. The loader makes sure that these bindings are available in the module's scope.
 - The way the string given to `require` is translated to an actual filename or web address differs in different systems. 
  
+### ECMAScript Modules
+- CommonJS modules remain a bit of a duct-tape hack as the things you add to `exports` are not available in the local scope.
+- In CommonJS modules it can be hard to determine the dependencies of a module without running its code.
+- In ES modules, you use a special `import` keyword.
+```js
+import ordinal from "ordinal"
+import {days, months} from "date-names"
+
+export function formateDate(date, format) {/* ...*/}
+
+```
+- An ES module's interface is not a single value but a set of "named bindings" so you import a binding not a value. means an exporting module may change the value of the binding at any time.
+- When there is a binding name `default`, it is treated as the module's main exported value.
+```js
+export default ["Winter", "Spring", "Summer", "Autumn"];
+```
+- It is possible to rename imported bindings using the word `as`.
+```js
+import {days as dayNames} from "date-names";
+console.log(dayNmaes.length);
+// 7
+```
+- ES module imports happen before a module's script starts running.
